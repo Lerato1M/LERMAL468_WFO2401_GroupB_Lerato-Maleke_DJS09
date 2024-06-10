@@ -1,6 +1,5 @@
 // Object Types Challenge
-// Based on what we discussed we need to make up our Property Objects and array,
-// can you create that array, making sure to assign the correct Types?
+// Property Objects and array,
 
 import { showReviewTotal, populateUser } from 'index.ts'
 let isOpen: boolean
@@ -62,7 +61,7 @@ const properties : {
     isAvailable: boolean;
 }[] = [
     {
-        image: '',
+        image: 'images\shack.jpg',
         title: 'Shack',
         price: 45,
         location: {
@@ -75,7 +74,7 @@ const properties : {
         isAvailable: true  
     },
         {
-        image: '',
+        image: 'images\polish cottage.jpg',
         title: 'Polish Cottage',
         price: 34,
         location: {
@@ -88,7 +87,7 @@ const properties : {
         isAvailable: false
     },
       {
-      image: '',
+      image: 'images\flat.jpg',
       title: 'Flat',
       price: 23,
       location: {
@@ -120,4 +119,5 @@ for (let i = 0; i < properties.length; i++) {
 
 //Tuple: allow you to express an array with a fixed number of elements whose types are known.
 
-//Enum as in languages like C#, an enum is a way of giving more friendly names to sets of numeric values.
+//Enum as in languages like C#.
+// An enum is a way of giving more friendly names to sets of numeric values.
