@@ -1,30 +1,123 @@
-// Function to calculate total review stars
-function calculateTotalStars(reviews: { stars: number }[]): number {
-    let totalStars = 0;
-    for (const review of reviews) {
-        if (typeof review.stars === 'number') {
-            totalStars += review.stars;
-        } else {
-            throw new Error('Invalid input: stars must be a number');
-        }
-    }
-    return totalStars;
+// Object Types Challenge
+// Based on what we discussed we need to make up our Property Objects and array,
+// can you create that array, making sure to assign the correct Types?
+
+import { showReviewTotal, populateUser } from 'index.ts'
+let isOpen: boolean
+
+// Reviews
+const reviews : { 
+    name: string; 
+    stars: number; 
+    loyaltyUser: boolean; 
+    date: string
+    }[] = [
+    {
+        name: 'Polena',
+        stars: 1,
+        loyaltyUser: true,
+        date: '01-01-2001'
+    },
+    {
+      name: 'Zinhle',
+      stars: 3,
+      loyaltyUser: true,
+      date: '11-03-1991'
+    },
+    {
+      name: 'Benjamin',
+      stars: 5,
+      loyaltyUser: true,
+      date: '26-12-1997'
+    },
+]
+
+// User
+const you: {
+    firstName: string;
+    lastName: string;
+    isReturning: boolean;
+    age: number;
+    stayedAt: string[]
+} = {
+    firstName: 'Chris',
+    lastName: 'Brown',
+    isReturning: true,
+    age: 25,
+    stayedAt: ['florida-home', 'oman-flat', 'tokyo-bungalow']
 }
 
-// Test data
-const reviews = [
-    { name: 'Sheia', stars: 5, loyaltyUser: true, date: '01-04-2021' },
-    { name: 'Andrzej', stars: 3, loyaltyUser: false, date: '28-03-2021' },
-    { name: 'Omar', stars: 4, loyaltyUser: true, date: '27-03-2021' },
-];
+//Properties
+const properties : {
+    image: string;
+    title: string;
+    price: number;
+    location: {
+        firstLine: string;
+        city: string;
+        code: number;
+        country: string;
+    };
+    contact:[number, string];
+    isAvailable: boolean;
+}[] = [
+    {
+        image: '',
+        title: 'Shack',
+        price: 45,
+        location: {
+            firstLine: 'shack 37',
+            city: 'Johannesburg',
+            code: 45632,
+            country: 'South Africa'
+        },
+        contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
+        isAvailable: true  
+    },
+        {
+        image: '',
+        title: 'Polish Cottage',
+        price: 34,
+        location: {
+            firstLine: 'no 23',
+            city: 'Toronto',
+            code: 76632,
+            country: 'Canada'
+        },
+        contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
+        isAvailable: false
+    },
+      {
+      image: '',
+      title: 'Flat',
+      price: 23,
+      location: {
+        firstLine: 'flat 15',
+        city: 'New York',
+        code: 35433,
+        country: 'United States',
+      },
+      contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
+      isAvailable: true
+  }
+]
 
-// Display total stars
-const reviewTotalDisplay = document.querySelector('#reviews');
-if (reviewTotalDisplay) {
-    try {
-        const totalStars = calculateTotalStars(reviews);
-        reviewTotalDisplay.textContent = `Total Stars: ${totalStars}`;
-    } catch (error) {
-        console.error(error.message);
-    }
+// Functions
+showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser)
+
+populateUser(you.isReturning, you.firstName)
+
+//Add the properties
+for (let i = 0; i < properties.length; i++) {
+  const card = document.createElement('div')
+  card.classList.add('card')
+  card.innerHTML = properties[i].title
+  const image = document.createElement('img')
+  image.setAttribute('src', properties[i].image)
+  card.appendChild(image)
+  propertyContainer.appendChild(card)
 }
+
+//Tuple: allow you to express an array with a fixed number of elements whose types are known.
+
+//Enum as in languages like C#, an enum is a way of giving more friendly names to sets of numeric values.
