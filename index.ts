@@ -1,104 +1,100 @@
-// Object Types Challenge
-// Property Objects and array,
+import { showReviewTotal, populateUser, showDetails, getTopTwoReviews} from './utils.ts'
+import { Permissions , LoyaltyUser } from './enums'
+import { Review, Property } from './interfaces'
+import MainProperty from './classes' 
+const propertyContainer = document.querySelector('.properties')
+const reviewContainer = document.querySelector('.reviews')
+const container = document.querySelector('.container')
+const button = document.querySelector('button')
+const footer = document.querySelector('.footer')
 
-import { showReviewTotal, populateUser } from 'index.ts'
-let isOpen: boolean
+let isLoggedIn: boolean
 
 // Reviews
-const reviews : { 
-    name: string; 
-    stars: number; 
-    loyaltyUser: boolean; 
-    date: string
-    }[] = [
+const reviews: Review[] = [
     {
-        name: 'Polena',
-        stars: 1,
-        loyaltyUser: true,
-        date: '01-01-2001'
+        name: 'Sheila',
+        stars: 5,
+        loyaltyUser: LoyaltyUser.GOLD_USER,
+        date: '01-04-2021'
     },
     {
-      name: 'Zinhle',
-      stars: 3,
-      loyaltyUser: true,
-      date: '11-03-1991'
+        name: 'Andrzej',
+        stars: 3,
+        loyaltyUser: LoyaltyUser.BRONZE_USER,
+        date: '28-03-2021'
     },
     {
-      name: 'Benjamin',
-      stars: 5,
-      loyaltyUser: true,
-      date: '26-12-1997'
+        name: 'Omar',
+        stars: 4,
+        loyaltyUser: LoyaltyUser.SILVER_USER,
+        date: '27-03-2021',
     },
 ]
 
-// User
-const you: {
-    firstName: string;
-    lastName: string;
-    isReturning: boolean;
-    age: number;
-    stayedAt: string[]
-} = {
-    firstName: 'Chris',
+const you = {
+    firstName: 'Bobby',
     lastName: 'Brown',
+    permissions: Permissions.ADMIN,
     isReturning: true,
-    age: 25,
+    age: 35,
     stayedAt: ['florida-home', 'oman-flat', 'tokyo-bungalow']
 }
 
-//Properties
-const properties : {
-    image: string;
-    title: string;
-    price: number;
-    location: {
-        firstLine: string;
-        city: string;
-        code: number;
-        country: string;
-    };
-    contact:[number, string];
-    isAvailable: boolean;
-}[] = [
+// Array of Properties
+const properties : Property[] = [
     {
-        image: 'images\shack.jpg',
-        title: 'Shack',
+        image: 'images/colombia-property.jpg',
+        title: 'Colombian Shack',
         price: 45,
         location: {
             firstLine: 'shack 37',
-            city: 'Johannesburg',
+            city: 'Bogota',
             code: 45632,
-            country: 'South Africa'
+            country: 'Colombia'
         },
-        contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
+        contact: [+112343823978921, 'marywinkle@gmail.com'],
         isAvailable: true  
     },
-        {
+    {
         image: 'images\polish cottage.jpg',
         title: 'Polish Cottage',
-        price: 34,
+        price: 30,
         location: {
             firstLine: 'no 23',
-            city: 'Toronto',
-            code: 76632,
-            country: 'Canada'
+            city: 'Gdansk',
+            code: 343903,
+            country: 'Poland'
         },
-        contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
-        isAvailable: false
+        contact: [+1298239028490830, 'garydavis@hotmail.com'],
+        isAvailable: false 
     },
-      {
-      image: 'images\flat.jpg',
-      title: 'Flat',
-      price: 23,
-      location: {
-        firstLine: 'flat 15',
-        city: 'New York',
-        code: 35433,
-        country: 'United States',
-      },
-      contact: [ +9676877987080, 'leratomaleke.m@gmail.com'],
-      isAvailable: true
-  }
+    {
+        image: 'images\flat.jpg',
+        title: 'London Flat',
+        price: 25,
+        location: {
+            firstLine: 'flat 15',
+            city: 'London',
+            code: 'SW4 5XW',
+            country: 'United Kingdom',
+        },
+        contact: [+34829374892553, 'andyluger@aol.com'],
+        isAvailable: true
+    },
+    {
+        image: 'images\Malasian Hotel.jpg',
+        title: 'Malia Hotel',
+        price: 35,
+        location: {
+            firstLine: 'Room 4',
+            city: 'Malia',
+            code: 45334,
+            country: 'Malaysia'
+        },
+        contact: [ +60349822083, 'lee34@gmail.com'],
+        isAvailable: false
+    }
 ]
 
 // Functions
@@ -106,18 +102,50 @@ showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser)
 
 populateUser(you.isReturning, you.firstName)
 
-//Add the properties
+// Add the properties
 for (let i = 0; i < properties.length; i++) {
-  const card = document.createElement('div')
-  card.classList.add('card')
-  card.innerHTML = properties[i].title
-  const image = document.createElement('img')
-  image.setAttribute('src', properties[i].image)
-  card.appendChild(image)
-  propertyContainer.appendChild(card)
+    const card = document.createElement('div')
+    card.classList.add('card')
+    card.innerHTML = properties[i].title
+    const image = document.createElement('img')
+    image.setAttribute('src', properties[i].image)
+    card.appendChild(image)
+    showDetails(you.permissions, card, properties[i].price)
+    propertyContainer.appendChild(card)
 }
 
-//Tuple: allow you to express an array with a fixed number of elements whose types are known.
+let count = 0
+function addReviews(array : Review[]) : void {
+    if (!count ) {
+        count++
+        const topTwo = getTopTwoReviews(array)
+        for (let i = 0; i < topTwo.length; i++) {
+            const card = document.createElement('div')
+            card.classList.add('review-card')
+            card.innerHTML = topTwo[i].stars + ' stars from ' + topTwo[i].name
+            reviewContainer.appendChild(card)
+        }
+        container.removeChild(button) 
+    }
+}
 
-//Enum as in languages like C#.
-// An enum is a way of giving more friendly names to sets of numeric values.
+button.addEventListener('click', () => addReviews(reviews))
+
+let currentLocation : [string, string, number] = ['London', '11.03', 17]
+footer.innerHTML = currentLocation[0] + ' ' + currentLocation[1] + ' ' + currentLocation[2] + '°'
+
+
+let yourMainProperty = new MainProperty(
+    'images\italian poperty.jpg', 
+    'Italian House',
+    [{
+        name: 'Olive',
+        stars: 5,
+        loyaltyUser: LoyaltyUser.GOLD_USER,
+        date: '12-04-2021'
+    }] )
+
+const mainImageContainer = document.querySelector('.main-image')
+const image = document.createElement('img')
+image.setAttribute('src', yourMainProperty.src)
+mainImageContainer.appendChild(image)
